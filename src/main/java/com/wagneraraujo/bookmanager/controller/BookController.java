@@ -8,25 +8,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wagneraraujo.bookmanager.dto.MessageResponseDTO;
 import com.wagneraraujo.bookmanager.entity.Book;
-import com.wagneraraujo.bookmanager.repository.BookRepository;
+import com.wagneraraujo.bookmanager.service.BookService;
 
 @RestController
 @RequestMapping("api/v1/book")
 public class BookController {
 
-	private BookRepository bookRepository;
+	private BookService bookService;
 
 	@Autowired
-	public BookController(BookRepository bookRepository) {
-		this.bookRepository = bookRepository;
+	public BookController(BookService bookService) {
+		this.bookService = bookService;
 	}
 	
 	@PostMapping
 	public MessageResponseDTO create(@RequestBody Book book) {
-		Book saveBook = bookRepository.save(book);
-		return MessageResponseDTO.builder()
-				.message("Book create with id " + saveBook.getId())
-				.build();
+		return bookService.create(book);
 	}
 	
 }
